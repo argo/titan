@@ -69,15 +69,16 @@ Titan.prototype.format = function(options) {
   }
 
   this.formatter = formatter(options);
+  this.argo.use(this.formatter);
   return this;
 };
 
 Titan.prototype._wire = function() {
   var dir = this.directories.resources;
 
-  if (this.formatter) {
+  /*if (this.formatter) {
     this.argo.use(this.formatter);
-  }
+  }*/
 
   if (!this.manual) {
     var files = fs.readdirSync(dir);
