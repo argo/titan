@@ -15,7 +15,7 @@ module.exports = function(model) {
         genre: item.genre
       },
       links: [
-        { rel: ['self'], href: model.selfUrl }
+        { rel: ['self'], href: item.selfUrl }
       ]
     };
 
