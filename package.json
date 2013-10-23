@@ -25,6 +25,7 @@
     "argo": "~0.4.1-beta",
     "argo-url-router": "0.0.4",
     "argo-resource": "0.0.6",
-    "argo-clf": "0.0.3"
+    "argo-clf": "0.0.3",
+    "argo-formatter": "0.0.0"
   }
 }
