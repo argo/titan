@@ -6,9 +6,12 @@ var gzip = require('argo-gzip');
 var logger = require('argo-clf');
 var router = require('argo-url-router');
 var resource = require('argo-resource');
+
+var url = require('./middleware/url');
+
+var ContainerResourceFactory = require('./container_resource_factory');
 var DirectoryResourceFactory = require('./directory_resource_factory');
 var ManualResourceFactory = require('./manual_resource_factory');
-var url = require('./middleware/url');
 
 var Titan = function(options) {
   options = options || {};
@@ -88,3 +91,4 @@ var titan = module.exports = function(options) {
 };
 
 titan.DirectoryResourceFactory = DirectoryResourceFactory;
+titan.ContainerResourceFactory = ContainerResourceFactory;
