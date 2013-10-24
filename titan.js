@@ -13,17 +13,13 @@ var ContainerResourceFactory = require('./resource_factories/container');
 var DirectoryResourceFactory = require('./resource_factories/directory');
 var ManualResourceFactory = require('./resource_factories/manual');
 
-var Titan = function(options) {
-  options = options || {};
-
+var Titan = function() {
   this.argo = argo();
   this.formatter = null;
 
-  this.resourceFactory =
-    new DirectoryResourceFactory(options.resourceDirectory);
+  this.resourceFactory = new ManualResourceFactory();
 
   this.argo
-    .use(gzip)
     .use(router)
     .use(logger)
     .use(url);
@@ -116,7 +112,15 @@ Titan.prototype.allow = function(options) {
   return this;
 };
 
+Titan.prototype.compress = function() {
+  this.argo.use(gzip);
+  return this;
+};
+
 Titan.prototype.load = function(factory) {
+  if (!factory) {
+    factory = new DirectoryResourceFactory();
+  };
   this.resourceFactory = factory;
   return this;
 };
