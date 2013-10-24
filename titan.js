@@ -6,21 +6,18 @@ var gzip = require('argo-gzip');
 var logger = require('argo-clf');
 var router = require('argo-url-router');
 var resource = require('argo-resource');
+var DirectoryResourceFactory = require('./directory_resource_factory');
+var ManualResourceFactory = require('./manual_resource_factory');
 var url = require('./middleware/url');
 
 var Titan = function(options) {
   options = options || {};
 
-  this.directory = options.directory || path.dirname(require.main.filename);
-
-  this.directories = options.directories || {};
-  this.directories.resources = this.directories.resource
-      || path.join(this.directory, 'resources');
-
   this.argo = argo();
   this.formatter = null;
 
-  this.manual = false;
+  this.resourceFactory =
+    new DirectoryResourceFactory(options.resourceDirectory);
 
   this.argo
     .use(gzip)
@@ -53,10 +50,12 @@ Titan.prototype.listen = function() {
 };
 
 Titan.prototype.add = function() {
-  var args = Array.prototype.slice.call(arguments);
-  this.argo.use(resource.apply(null, args));
+  if (!(this.resourceFactory instanceof ManualResourceFactory)) {
+    this.resourceFactory = new ManualResourceFactory();
+  }
 
-  this.manual = true;
+  var args = Array.prototype.slice.call(arguments);
+  this.resourceFactory.register.apply(this.resourceFactory, args);
 
   return this;
 };
@@ -71,23 +70,21 @@ Titan.prototype.format = function(options) {
   return this;
 };
 
-Titan.prototype._wire = function() {
-  var dir = this.directories.resources;
-
-  if (!this.manual) {
-    var files = fs.readdirSync(dir);
-    var self = this;
-
-    files.filter(function(file) {
-      return file[0] !== '.';
-    }).forEach(function(file) {
-      var res = require(path.join(self.directories.resources, file));
-      self.argo.use(resource(res));
-    });
-  }
+Titan.prototype.setResourceFactory = function(factory) {
+  this.resourceFactory = factory;
+  return this;
 };
 
-module.exports = function(options) {
+Titan.prototype._wire = function() {
+  var self = this;
+  this.resourceFactory.resolve().forEach(function(res) {
+    self.argo.use(res);
+  });
+};
+
+var titan = module.exports = function(options) {
   var titan = new Titan(options);
   return titan;
 };
+
+titan.DirectoryResourceFactory = DirectoryResourceFactory;
