@@ -116,7 +116,7 @@ Titan.prototype.allow = function(options) {
   return this;
 };
 
-Titan.prototype.setResourceFactory = function(factory) {
+Titan.prototype.load = function(factory) {
   this.resourceFactory = factory;
   return this;
 };
