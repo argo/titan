@@ -6,6 +6,7 @@ var gzip = require('argo-gzip');
 var logger = require('argo-clf');
 var router = require('argo-url-router');
 var resource = require('argo-resource');
+var url = require('./middleware/url');
 
 var Titan = function(options) {
   options = options || {};
@@ -24,7 +25,8 @@ var Titan = function(options) {
   this.argo
     .use(gzip)
     .use(router)
-    .use(logger);
+    .use(logger)
+    .use(url);
 };
 
 ['use', 'route', 'map', 'build', 'get', 'post',
