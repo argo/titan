@@ -5,11 +5,6 @@ var titan = require('../../');
 titan()
   .allow('*')
   .compress()
-  .format({
-    engines: [siren],
-    override: {
-      'application/json': siren
-    }
-  })
+  .format({ engines: [siren], override: { 'application/json': siren } })
   .load(path.join(__dirname, 'resources'))
   .listen(3000);
