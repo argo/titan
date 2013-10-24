@@ -9,9 +9,9 @@ var resource = require('argo-resource');
 
 var url = require('./middleware/url');
 
-var ContainerResourceFactory = require('./container_resource_factory');
-var DirectoryResourceFactory = require('./directory_resource_factory');
-var ManualResourceFactory = require('./manual_resource_factory');
+var ContainerResourceFactory = require('./resource_factories/container');
+var DirectoryResourceFactory = require('./resource_factories/directory');
+var ManualResourceFactory = require('./resource_factories/manual');
 
 var Titan = function(options) {
   options = options || {};
@@ -70,6 +70,49 @@ Titan.prototype.format = function(options) {
 
   this.formatter = formatter(options);
   this.argo.use(this.formatter);
+  return this;
+};
+
+Titan.prototype.allow = function(options) {
+  options = options || {};
+
+  if (options === '*') {
+    options = {
+      methods: ['DELETE', 'PUT', 'PATCH'],
+      origins: ['*'],
+      maxAge: '432000'
+    };
+  }
+  
+  this.argo.use(function(handle) {
+    handle('response', function(env, next) {
+      if (options.origins) {
+        env.response.setHeader('Access-Control-Allow-Origin', options.origins.join(', '));
+      }
+
+      if (env.request.method === 'OPTIONS') {
+        if (env.response.statusCode == 405) {
+          env.response.statusCode = 200;
+          env.response.body = null;
+        }
+
+        if (options.headers) {
+          env.response.setHeader('Access-Control-Allow-Headers', options.headers.join(', '));
+        }
+
+        if (options.methods) {
+          env.response.setHeader('Access-Control-Allow-Methods', options.methods.join(', '));
+        }
+
+        if (options.maxAge) {
+          env.response.setHeader('Access-Control-Max-Age', options.maxAge);
+        }
+      }
+
+      next(env);
+    });
+  });
+
   return this;
 };
 
