@@ -27,6 +27,7 @@
     "argo-resource": "0.0.7",
     "argo-clf": "0.0.3",
     "argo-formatter": "0.0.0",
-    "argo-gzip": "~0.1.5"
+    "argo-gzip": "~0.1.5",
+    "argo-url-helper": "0.0.0"
   }
 }
