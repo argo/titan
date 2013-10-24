@@ -2,16 +2,10 @@ var fs = require('fs');
 var path = require('path');
 var argo = require('argo');
 var formatter = require('argo-formatter');
+var gzip = require('argo-gzip');
 var logger = require('argo-clf');
 var router = require('argo-url-router');
 var resource = require('argo-resource');
-
-/*var formatter = formatter({
-  engines: [handlebars, siren],
-  override: {
-    'application/json': siren
-  }
-});*/
 
 var Titan = function(options) {
   options = options || {};
@@ -19,7 +13,8 @@ var Titan = function(options) {
   this.directory = options.directory || path.dirname(require.main.filename);
 
   this.directories = options.directories || {};
-  this.directories.resources = this.directories.resource || path.join(this.directory, 'resources');
+  this.directories.resources = this.directories.resource
+      || path.join(this.directory, 'resources');
 
   this.argo = argo();
   this.formatter = null;
@@ -27,6 +22,7 @@ var Titan = function(options) {
   this.manual = false;
 
   this.argo
+    .use(gzip)
     .use(router)
     .use(logger);
 };
@@ -75,10 +71,6 @@ Titan.prototype.format = function(options) {
 
 Titan.prototype._wire = function() {
   var dir = this.directories.resources;
-
-  /*if (this.formatter) {
-    this.argo.use(this.formatter);
-  }*/
 
   if (!this.manual) {
     var files = fs.readdirSync(dir);
