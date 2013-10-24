@@ -117,8 +117,9 @@ Titan.prototype.compress = function() {
 };
 
 Titan.prototype.load = function(factory) {
-  if (!factory) {
-    factory = new DirectoryResourceFactory();
+  if (!factory || typeof factory === 'string') {
+    var opts = { directory: factory };
+    factory = new DirectoryResourceFactory(opts);
   };
   this.resourceFactory = factory;
   return this;
