@@ -23,10 +23,12 @@ ArtistsResource.prototype.list = function(env, next) {
   var urlHelper = env.helpers.url;
 
   var items = this.artists.map(function(item) {
-    var artist = new Artist();
-    artist.name = item.name;
-    artist.genre = item.genre;
-    artist.selfUrl = urlHelper.join(item.id);
+    var artist = Artist.create({
+      id: item.id,
+      name: item.name,
+      genre: item.genre,
+      selfUrl: urlHelper.join(item.id)
+    });
 
     return artist;
   });
@@ -51,11 +53,13 @@ ArtistsResource.prototype.show = function(env, next) {
   if (filtered.length) {
     var found = filtered[0];
 
-    var artist = new Artist();
-    artist.name = found.name;
-    artist.genre = found.genre;
-    artist.selfUrl = urlHelper.current();
-    artist.collectionUrl = urlHelper.path(this.path);
+    var artist = Artist.create({
+      id: found.id,
+      name: found.name,
+      genre: found.genre,
+      selfUrl: urlHelper.current(),
+      collectionUrl: urlHelper.path(this.path)
+    });
 
     env.format.render('artist', artist);
   } else {
