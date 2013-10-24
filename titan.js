@@ -37,8 +37,7 @@ var Titan = function() {
 Titan.prototype.build = function() {
   this._wire();
   var args = Array.prototype.slice.call(arguments);
-  this.argo.build.apply(this.argo, args);
-  return this;
+  return this.argo.build.apply(this.argo, args);
 };
 
 Titan.prototype.listen = function() {
