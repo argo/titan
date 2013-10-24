@@ -1,7 +1,6 @@
 var titan = require('../../');
 var siren = require('argo-formatter-siren');
 
-
 titan()
   .allow('*')
   .format({
