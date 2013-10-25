@@ -124,7 +124,16 @@ Titan.prototype.load = function(factory) {
     var opts = { directory: factory };
     factory = new DirectoryResourceFactory(opts);
   };
+
   this.resourceFactory = factory;
+  return this;
+};
+
+Titan.prototype.error = function(handler) {
+  this.argo.use(function(handle) {
+    handle('error', handler);
+  });
+
   return this;
 };
 
