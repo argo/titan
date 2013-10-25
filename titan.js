@@ -20,7 +20,6 @@ var Titan = function() {
 
   this.argo
     .use(router)
-    .use(logger)
     .use(urlHelper);
 };
 
@@ -112,6 +111,11 @@ Titan.prototype.allow = function(options) {
 
 Titan.prototype.compress = function() {
   this.argo.use(gzip);
+  return this;
+};
+
+Titan.prototype.logger = function() {
+  this.argo.use(logger);
   return this;
 };
 
