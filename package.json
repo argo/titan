@@ -1,6 +1,6 @@
 {
   "name": "titan",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A stellar API framework built on top of Argo.",
   "main": "titan.js",
   "scripts": {

@@ -1,0 +1,17 @@
+{
+  "name": "package",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Sample of Titan as an Argo package.",
+  "main": "server.js",
+  "dependencies": {
+    "argo": "~0.4.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Kevin Swiber <kswiber@gmail.com>",
+  "license": "MIT"
+}

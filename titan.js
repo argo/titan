@@ -12,8 +12,9 @@ var ContainerResourceFactory = require('./resource_factories/container');
 var DirectoryResourceFactory = require('./resource_factories/directory');
 var ManualResourceFactory = require('./resource_factories/manual');
 
-var Titan = function() {
-  this.argo = argo();
+var Titan = function(options) {
+  options = options || {};
+  this.argo = options.argo || argo();
   this.formatter = null;
 
   this.resourceFactory = new ManualResourceFactory();
@@ -144,10 +145,31 @@ Titan.prototype._wire = function() {
   });
 };
 
-var titan = module.exports = function(options) {
+var exp = function(options) {
   var titan = new Titan(options);
   return titan;
 };
 
-titan.DirectoryResourceFactory = DirectoryResourceFactory;
-titan.ContainerResourceFactory = ContainerResourceFactory;
+exp.package = function(argo) {
+  var titan = new Titan({ argo: argo });
+
+  return {
+    name: 'titan',
+    install: function() {
+      var functions = ['load', 'format', 'allow', 'compress', 'add', 'logger'];
+
+      functions.forEach(function(f) {
+        argo[f] = titan[f].bind(titan);
+      });
+
+      argo
+        .use(router)
+        .use(urlHelper);
+    }
+  };
+};
+
+exp.DirectoryResourceFactory = DirectoryResourceFactory;
+exp.ContainerResourceFactory = ContainerResourceFactory;
+
+module.exports = exp;
