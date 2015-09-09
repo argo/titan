@@ -231,13 +231,27 @@ titan()
 <a name="add"/>
 ### add(resource, args)
 
-`add` adds an additional argo-resource package to your titan server.
+`add` adds an additional argo-resource package to your titan server. See the [argo-resource](http://github.com/argo/argo-resource) repo for details on creating resources.
 
 ```javascript
 var HelloResource = require('./hello_resource');
 
 titan()
   .add(HelloResource);
+```
+
+<a name="load"/>
+### load(pathToResources)
+
+* `pathToResource`: String path to directory containing argo resource files. 
+
+`load` loads a directory of argo-resource files without having to specifiy each one individually.  
+
+```javascript
+var HelloResource = require('./hello_resource');
+
+titan()
+  .load(path.join(__dirname, 'resources'));
 ```
 
 ## Issues and Contributing
