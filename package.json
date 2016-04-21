@@ -28,6 +28,6 @@
     "argo-clf": ">=0.0.3",
     "argo-formatter": ">=0.0.0",
     "argo-gzip": ">=0.2.0",
-    "argo-url-helper": ">=0.2.0"
+    "argo-url-helper": ">=0.3.0"
   }
 }
