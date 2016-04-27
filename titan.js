@@ -14,6 +14,10 @@ var ManualResourceFactory = require('./resource_factories/manual');
 
 var Titan = function(options) {
   options = options || {};
+  var urlHelperOpts = {};
+  if(typeof options.useXForwardedHostHeader !== 'undefined') {
+    urlHelperOpts.useXForwardedHostHeader = options.useXForwardedHostHeader;
+  }
   this.argo = options.argo || argo();
   this.formatter = null;
 
@@ -21,7 +25,7 @@ var Titan = function(options) {
 
   this.argo
     .use(router)
-    .use(urlHelper);
+    .use(urlHelper(urlHelperOpts));
 };
 
 ['use', 'route', 'map', 'build', 'get', 'post',
