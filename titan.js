@@ -18,8 +18,8 @@ var Titan = function(options) {
   if(typeof options.useXForwardedHostHeader !== 'undefined') {
     urlHelperOpts.useXForwardedHostHeader = options.useXForwardedHostHeader;
   }
-  if(typeof options.useXForwardedRootHeader !== 'undefined') {
-    urlHelperOpts.useXForwardedRootHeader = options.useXForwardedRootHeader;
+  if(typeof options.useXForwardedPathHeader !== 'undefined') {
+    urlHelperOpts.useXForwardedPathHeader = options.useXForwardedPathHeader;
   }
   this.argo = options.argo || argo();
   this.formatter = null;
