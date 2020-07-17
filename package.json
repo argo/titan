@@ -29,5 +29,10 @@
     "argo-resource": "^1.0.0",
     "argo-url-helper": ">=0.5.0",
     "argo-url-router": ">=0.0.4"
-  }
+  },
+  "homepage": "https://github.com/argo/titan#readme",
+  "directories": {
+    "example": "example"
+  },
+  "devDependencies": {}
 }
